@@ -42,53 +42,7 @@ let minutes = 0;
 let elapsedTime = 0;
 
 
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', function() {
-    navigator.serviceWorker.register('sw.js').then(function(registration) {
-      // Registration was successful
-      
-      console.log('ServiceWorker registration successful with scope: ', registration.scope);
-    }, function(err) {
-      // registration failed :(
-      console.log('ServiceWorker registration failed: ', err);
-    });
-  });
-}
-
-function showNotification() {
-  Notification.requestPermission(function(result) {
-    if (result === 'granted') {
-      navigator.serviceWorker.ready.then(function(registration) {
-        registration.showNotification('Vibration Sample', {
-          body: 'Buzz! Buzz!',
-          icon: '../images/touch/chrome-touch-icon-192x192.png',
-          vibrate: [200, 100, 200, 100, 200, 100, 200],
-          tag: 'vibration-sample'
-        });
-      });
-    }
-  });
-}
-
-
-function showNotification2() {
-  Notification.requestPermission(function(result) {
-    if (result === 'granted') {
-      navigator.serviceWorker.ready.then(function(registration) {
-        registration.showNotification('Vibration TWO', {
-          body: 'STOOOOP',
-          icon: '../images/touch/chrome-touch-icon-192x192.png',
-          vibrate: [200, 100, 200, 100, 200, 100, 200],
-          tag: 'vibration-two'
-        });
-      });
-    }
-  });
-}
-
-
-showNotification()
-
+var worker = new SharedWorker("worker.js");
 
 
 
@@ -199,7 +153,20 @@ function starttimer() {
 
 
     if (seconds == 0 && minutes == 0 && state === 'study') {
-      showNotification2();
+   
+      worker.port.start();    
+      Notification.requestPermission(function (permission) {
+        // If the user accepts, let's create a notification
+        if (permission === "granted") {
+          worker.port.postMessage({name:"notification"});
+        }
+      });
+      
+      
+
+
+
+
       width = 100;
       elem.style.width = width + "%";
       ddate.setMinutes(ddate.getMinutes() + pomodoroMinutes);
