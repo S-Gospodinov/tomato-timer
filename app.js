@@ -24,7 +24,7 @@ window.addEventListener('load', () => {
   buttonsState(false, true, true, true, true);
 })
 
-const initialInterval = 1;
+const initialInterval = 20;
 const shortBreak = 5;
 const lonngBreak = 10;
 
