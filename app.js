@@ -24,7 +24,11 @@ window.addEventListener('load', () => {
   buttonsState(false, true, true, true, true);
 })
 
-let pomodoroMinutes = 25;
+const initialInterval = 25;
+const shortBreak = 5;
+const lonngBreak = 10;
+
+let pomodoroMinutes = initialInterval;
 let isStarted = false;
 let state = 'study';
 let width = 100;
@@ -97,7 +101,7 @@ pauseButton.addEventListener('click', () => {
 
 //  Short and Long breaks
 breakButtton.addEventListener('click', () => {
-  pomodoroMinutes = 5;
+  pomodoroMinutes = shortBreak;
   state = 'break';
   buttonsState(true, false, false, true, true);
   resetTimes();
@@ -106,7 +110,7 @@ breakButtton.addEventListener('click', () => {
 })
 
 LngbreakButton.addEventListener('click', () => {
-  pomodoroMinutes = 10;
+  pomodoroMinutes = lonngBreak;
   state = 'break';
   buttonsState(true, false, false, true, true);
   resetTimes();
@@ -157,7 +161,7 @@ function starttimer() {
     else if (seconds === 0 && minutes === 0 && state === 'break') {
       clearInterval(timer.intervalId)
       buttonsState(false, true, true, true, true);
-      pomodoroMinutes = 25;
+      pomodoroMinutes = initialInterval;
       state = 'study';
       alert.play();
       clearButton.disabled = true;
