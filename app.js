@@ -42,6 +42,23 @@ let minutes = 0;
 let elapsedTime = 0;
 
 
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', function() {
+    navigator.serviceWorker.register('/sw.js').then(function(registration) {
+      // Registration was successful
+      
+      console.log('ServiceWorker registration successful with scope: ', registration.scope);
+    }, function(err) {
+      // registration failed :(
+      console.log('ServiceWorker registration failed: ', err);
+    });
+  });
+}
+
+
+
+
+
 // reset timer function
 function resetTimes() {
   isStarted = false;
@@ -75,7 +92,7 @@ function buttonsState(start_state, pause_state, reset_state, shortbrk_state, lon
 // Pick an alert
 notifyOptions.addEventListener('click', (e) => {
   alertName = e.target.textContent;
-  alert = new Audio(`./alerts/${alertName}.mp3`);
+  alertSound = new Audio(`./alerts/${alertName}.mp3`);
 
   const elems = document.querySelectorAll(".active");
   elems.forEach((e) => {
