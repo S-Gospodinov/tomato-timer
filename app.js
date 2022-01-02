@@ -54,6 +54,7 @@ if ('serviceWorker' in navigator) {
     });
   });
 }
+
 function showNotification() {
   Notification.requestPermission(function(result) {
     if (result === 'granted') {
@@ -69,7 +70,6 @@ function showNotification() {
   });
 }
 
-showNotification();
 
 
 
@@ -181,6 +181,7 @@ function starttimer() {
 
 
     if (seconds == 0 && minutes == 0 && state === 'study') {
+      showNotification();
       width = 100;
       elem.style.width = width + "%";
       ddate.setMinutes(ddate.getMinutes() + pomodoroMinutes);
