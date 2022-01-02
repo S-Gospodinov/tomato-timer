@@ -14,7 +14,7 @@ const currentTheme = localStorage.getItem('theme');
 
 const timer = { elapsedTime: 0 };
 
-let alert = new Audio('./alerts/gong.mp3');
+let alertSound = new Audio('./alerts/gong.mp3');
 let alerNane = 'gong';
 
 
@@ -24,9 +24,9 @@ window.addEventListener('load', () => {
   buttonsState(false, true, true, true, true);
 })
 
-const initialInterval = 20;
-const shortBreak = 5;
-const lonngBreak = 10;
+const initialInterval = 1;
+const shortBreak = 2;
+const lonngBreak = 3;
 
 let pomodoroMinutes = initialInterval;
 let isStarted = false;
@@ -55,6 +55,8 @@ function calcMinsSeconds() {
   elapsedTime = timer.startTime - Date.now() - timer.elapsedTime
   seconds = Math.floor((elapsedTime % m) / s);
   minutes = Math.floor((elapsedTime % h) / m);
+  localStorage.setItem("seconds", seconds); 
+  localStorage.setItem("minutes", minutes); 
   displayTime(minutes, seconds);
 }
 
@@ -147,23 +149,26 @@ function starttimer() {
     elem.style.width = width + "%";
     console.log(width);
 
+let lseconds = localStorage.getItem('seconds');
+let lminutes = localStorage.getItem('minutes');
 
-    if (seconds === 0 && minutes === 0 && state === 'study') {
+    if (lseconds == 0 && lminutes == 0 && state === 'study') {
+      alert("TIME'S UP");
       width = 100;
       elem.style.width = width + "%";
       ddate.setMinutes(ddate.getMinutes() + pomodoroMinutes);
       clearInterval(timer.intervalId)
       buttonsState(true, true, true, false, false);
-      alert.play();
+      alertSound.play();
     }
 
     // Reset timer to initial interval
-    else if (seconds === 0 && minutes === 0 && state === 'break') {
+    else if (seconds == 0 && minutes == 0 && state === 'break') {
       clearInterval(timer.intervalId)
       buttonsState(false, true, true, true, true);
       pomodoroMinutes = initialInterval;
       state = 'study';
-      alert.play();
+      alertSound.play();
       clearButton.disabled = true;
       resetTimes();
 
