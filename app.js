@@ -18,28 +18,6 @@ let alertSound = new Audio('./alerts/gong.mp3');
 let alerNane = 'gong';
 
 
-
-
-const img = "/images/jason-leung-HM6TMmevbZQ-unsplash.jpg";
-const text = "Take a look at this brand new t-shirt!";
-const title = "New Product Available";
-const options = {
-    body: text,
-    icon: "/images/jason-leung-HM6TMmevbZQ-unsplash.jpg",
-    vibrate: [200, 100, 200],
-    tag: "new-product",
-    image: img,
-    badge: "https://spyna.it/icons/android-icon-192x192.png",
-    actions: [{ action: "Detail", title: "View", icon: "https://via.placeholder.com/128/ff0000" }]
- };
-
-navigator.serviceWorker.ready.then(function(serviceWorker) {
-  serviceWorker.showNotification(title, options);
-});
-
-
-
-
 // Disable buttons onload, since Firefox sometimes chaches previous button state
 // see -> https://bugzilla.mozilla.org/show_bug.cgi?id=654072 
 window.addEventListener('load', () => {
@@ -77,8 +55,6 @@ function calcMinsSeconds() {
   elapsedTime = timer.startTime - Date.now() - timer.elapsedTime
   seconds = Math.floor((elapsedTime % m) / s);
   minutes = Math.floor((elapsedTime % h) / m);
-  localStorage.setItem("seconds", seconds); 
-  localStorage.setItem("minutes", minutes); 
   displayTime(minutes, seconds);
 }
 
@@ -171,11 +147,8 @@ function starttimer() {
     elem.style.width = width + "%";
     console.log(width);
 
-let lseconds = localStorage.getItem('seconds');
-let lminutes = localStorage.getItem('minutes');
 
-    if (lseconds == 0 && lminutes == 0 && state === 'study') {
-      alert("TIME'S UP");
+    if (seconds == 0 && minutes == 0 && state === 'study') {
       width = 100;
       elem.style.width = width + "%";
       ddate.setMinutes(ddate.getMinutes() + pomodoroMinutes);
