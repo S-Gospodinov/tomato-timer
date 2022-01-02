@@ -42,7 +42,7 @@ let minutes = 0;
 let elapsedTime = 0;
 
 
-var worker = new SharedWorker("./worker.js");
+var worker = new Worker("./worker.js");
 
 
 
@@ -154,15 +154,12 @@ function starttimer() {
 
     if (seconds == 0 && minutes == 0 && state === 'study') {
    
-      worker.port.start();    
       Notification.requestPermission(function (permission) {
         // If the user accepts, let's create a notification
         if (permission === "granted") {
-          worker.port.postMessage({name:"notification"});
+          worker.postMessage({name:"notification"});
         }
       });
-      
-      
 
 
 
