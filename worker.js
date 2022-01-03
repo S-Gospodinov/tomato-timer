@@ -1,5 +1,4 @@
-function workerFN() {
-    self.onmessage = function(e) {
+onmessage = function(e) {
       switch(e.data.name) {
         case "notification" : 
           console.log("Notification:");
@@ -17,6 +16,3 @@ function workerFN() {
     }
 
 
-}
-
-workerFN();
