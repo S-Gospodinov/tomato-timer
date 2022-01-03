@@ -42,7 +42,7 @@ let minutes = 0;
 let elapsedTime = 0;
 
 
-var worker = new Worker("./worker.js");
+const worker = new Worker("./worker.js");
 
 
 
