@@ -44,6 +44,16 @@ let elapsedTime = 0;
 
 const worker = new Worker("./worker.js");
 
+Notification.requestPermission(function (permission) {
+  // If the user accepts, let's create a notification
+  if (permission === "granted") {
+    worker.postMessage({name:"notification"});
+    console.log('Message posted to worker');
+  }
+});
+
+
+
 
 
 // reset timer function
