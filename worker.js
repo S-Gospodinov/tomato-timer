@@ -4,8 +4,10 @@ function workerFN() {
         case "notification" : 
           console.log("Notification:");
           var options = {
-            body: 'Do you like my body?',
-            vibrate: [200, 100, 200]
+            body: 'Buzz! Buzz!',
+          icon: '../images/touch/chrome-touch-icon-192x192.png',
+          vibrate: [200, 100, 200, 100, 200, 100, 200],
+          tag: 'vibration-sample'
           }
           var notification = new Notification("Hi there!", options);
         break;
