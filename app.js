@@ -44,14 +44,9 @@ let elapsedTime = 0;
 
 const worker = new Worker("./worker.js");
 
-Notification.requestPermission(function (permission) {
-  // If the user accepts, let's create a notification
-  if (permission === "granted") {
-    worker.postMessage({name:"notification"});
-    console.log('Message posted to worker');
-  }
-});
 
+
+ 
 
 
 
@@ -161,39 +156,44 @@ function starttimer() {
     elem.style.width = width + "%";
     console.log(width);
 
-
-    if (seconds == 0 && minutes == 0 && state === 'study') {
-   
-      Notification.requestPermission(function (permission) {
-        // If the user accepts, let's create a notification
-        if (permission === "granted") {
-          worker.postMessage({name:"notification"});
-          console.log('Message posted to worker');
-        }
-      });
-
-
-
-
-      width = 100;
+ 
+      worker.postMessage([seconds, minutes]);
+      
+      worker.onmessage = function(e) {
+       let themsg = e.data;
+        console.log(themsg);
+        width = 100;
       elem.style.width = width + "%";
       ddate.setMinutes(ddate.getMinutes() + pomodoroMinutes);
       clearInterval(timer.intervalId)
       buttonsState(true, true, true, false, false);
       alertSound.play();
-    }
+      }
+    
 
-    // Reset timer to initial interval
-    else if (seconds == 0 && minutes == 0 && state === 'break') {
-      clearInterval(timer.intervalId)
-      buttonsState(false, true, true, true, true);
-      pomodoroMinutes = initialInterval;
-      state = 'study';
-      alertSound.play();
-      clearButton.disabled = true;
-      resetTimes();
 
-    }
+    // if (seconds == 0 && minutes == 0 && state === 'study') {
+   
+
+    //   width = 100;
+    //   elem.style.width = width + "%";
+    //   ddate.setMinutes(ddate.getMinutes() + pomodoroMinutes);
+    //   clearInterval(timer.intervalId)
+    //   buttonsState(true, true, true, false, false);
+    //   alertSound.play();
+    // }
+
+    // // Reset timer to initial interval
+    // else if (seconds == 0 && minutes == 0 && state === 'break') {
+    //   clearInterval(timer.intervalId)
+    //   buttonsState(false, true, true, true, true);
+    //   pomodoroMinutes = initialInterval;
+    //   state = 'study';
+    //   alertSound.play();
+    //   clearButton.disabled = true;
+    //   resetTimes();
+
+    // }
 
   }, 10);
 }
